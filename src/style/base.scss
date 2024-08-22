@@ -1,0 +1,12 @@
+
+body {
+    margin: 0px;
+    font-family: "Titillium Web", sans-serif;
+}
+// La página va a tener esta className y va a ser 1 columna y todo se va a ir posicinando debajo.
+// Aunque esto no quiere decir que luego dividamos la pagina en navegation, portfolio, etc.. y le demos a cada uno su propio estilo y columnas.
+.container{
+    display: grid;
+    grid-template-columns: 1fr;
+    
+}

@@ -1,0 +1,22 @@
+.auth-page-wrapper{
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    // No queremos exactamente el 100% de la altura de la vista. Recuerda que la altura de la vista representa todo hasta el final, también necesitamos restar la altura de la barra de navegación, así que lo que podemos hacer con CSS es decir calc, que es la abreviatura de cálculo, así que queremos hacer el cálculo 100 altura de la vista menos 84 píxeles.
+
+    //Ahora bien, no inventé ese número ni lo adiviné. La altura de la barra de navegación, incluido el relleno y todo lo demás, es igual a 84 píxeles.
+    height: calc(100vh - 84px);
+
+
+    .left-column{
+        background-size: cover;
+    }
+
+    .right-column{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color:$offwhite;
+    }
+}

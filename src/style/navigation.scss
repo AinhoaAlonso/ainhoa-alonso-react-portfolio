@@ -1,0 +1,52 @@
+.nav-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+
+    
+    .left-side{
+        display: flex;
+    }
+
+    .nav-link-wrapper{
+        height: 22px;
+        border-bottom: 1px solid transparent; // Crea un borde abajo transparente que se va a a ver cuando pase el cursor por encima.
+        transition: 0.5s ease-in-out; // Crea una animación 
+
+        margin-right: 20px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+
+        .nav-link-active { // Clase Activa, cuando entras en el enlace del menu se queda como si estuviese seleccionado (negro y con el borde de abajo negro)
+            color:black;
+            border-bottom: 1px solid black;
+        }
+
+        a { // Esto hace que me seleccione todos los enlaces que están dentro de .nav-link-wrapper
+            color: $grey;
+            text-decoration: none; // Quita el subrayado de link
+
+            &:hover{ // Esto lo ponemos aquí porque si lo ponemos en el otro hover no nos funciona
+                color: black;
+            }
+        }
+
+        &:hover{
+            border-bottom: 1px solid black;
+        }
+    }
+
+    .right-side {
+        a {
+            margin-left: 15px;
+            cursor: pointer;
+            color: $teal;
+            transition: 0.5s ease-in-out;
+
+            &:hover{
+                color: $dark-teal;
+            }
+        }
+    }
+}
+

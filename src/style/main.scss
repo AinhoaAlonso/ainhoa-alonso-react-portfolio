@@ -1,28 +1,18 @@
-html {
-    font-size: 62.5%; // 1rem is 10px
-}
+// Importante variables.scss y mixins.scss arriba para que el resto de archivos tengan acceso a ellos.
+// El orden es importante porque se pueden anular
+@import "./variables.scss";
+@import "./mixins.scss";
+@import "./base.scss";
+@import "./form.scss";
+@import "./button.scss";
+@import "./grid.scss";
+@import "./navigation.scss";
+@import "./portfolio.scss";
+@import "./portfolio-manager.scss";
+@import "./portfolio-sidebar.scss";
+@import "./portfolio-form.scss";
+@import "./auth.scss";
+@import "./blog.scss";
+@import "./loaders.scss";
+@import "./blog-form.scss";
 
-*,
-*::after,
-*::before {
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
-    font-family: 'montserrat';
-}
-
-body {
-    overflow-x: hidden;
-    font-weight: normal;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.app {
-    margin-top: 2rem;
-    display: grid;
-    justify-items: center;
-}
