@@ -32,7 +32,7 @@ export default class BlogModal extends Component{
     //Creamos una función para pasar los datos que obtenemos correctamente y le pasamos un registro de blog cuando pulsas save
     handleSuccesfullFormSubmission(blog){
         //de momento hacemos un console para verlo en pantalla más adelante pasaremos la respuesta a una API
-        console.log("Blog Form Successfull", blog);
+        //console.log("Blog Form Successfull", blog);
 
         //Le pasa como propiedad el metodo para cerrar el modal
         this.props.handleSuccessfulNewBlogSubmission(blog);

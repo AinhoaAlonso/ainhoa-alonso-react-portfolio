@@ -9,14 +9,7 @@ import {
 } from 'react-router-dom'; 
 
 import axios from 'axios';
-
-import { library } from '@fortawesome/fontawesome-svg-core';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-
-//Ahora seleccionamos los iconos reales que queremos traer a la aplicación
-import { faSignOut, faSignOutAlt, faTrash, faRightFromBracket,faPenToSquare,faSpinner, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-
-
 import NavigationContainer from './navigation/navigation-container';
 // Importo los componentes creados
 import Home from './pages/home';
@@ -29,15 +22,13 @@ import PortfolioDetail from './portfolio/portfolio-detail';
 import Auth from './pages/auth';
 import NoMatch from './pages/no-match';
 import AddBlog from './pages/addblog';
-
-
-//Ahora necesitamos conectar este componente de la biblioteca y decirle cuál de los componentes vamos a extraer, o qué íconos vamos a extraer.
-library.add(faSignOut, faSignOutAlt, faTrash, faRightFromBracket, faPenToSquare, faSpinner, faCirclePlus);
-
+import Icons from '../helpers/icons';
 
 export default class App extends Component {
   constructor(props){
     super(props);
+
+    Icons();
 
     this.state ={
       loggedInStatus : "NOT_LOGGED_IN" // Esto es una convención común que siempre que se desea establecer algún punto de datos que se va a utilizar como condicional en JavaScript, se hace en mayúsculas.
@@ -136,17 +127,26 @@ export default class App extends Component {
               path = "/auth" 
               render = {props => (
                 <Auth // Componente Auth, está en auth.js
-                  {...props} //Operador de propagación de JS, lo que vamos a hacer es difundir las propiedades que recibimos desde el render.
+                  {...props} //Operador de propagación de JS, lo que vamos a hacer es difundir las propiedades que recibimos desde el render.Permitir que nuestro componente obtenga todas las propiedades
                   //Comenzamos a definir los valores
                   handleSuccessfulLogin = {this.handleSuccessfulLogin}
                   handleUnSuccessfulLogin = {this.handleUnSuccessfulLogin}
                 />
               )}
               />
-
               <Route path = "/about-me" component={About} />
               <Route path = "/contact" component={Contact} />
-              <Route path = "/blog" component={Blog} />
+              
+              {/*Tenemos que pasarle la propiedad del loggedInStatus, le pasamos la propiedad render para pasar propiedades al componente */}
+              <Route 
+                path = "/blog"
+                render = {props => (
+                  <Blog //Componente Blog
+                    {...props}
+                    loggedInStatus = {this.state.loggedInStatus}
+                  />
+                )}
+              />
               {/* Podemos personalizar la ruta */}
               <Route path = "/b/:slug" component={BlogDetail} />
 

@@ -67,7 +67,7 @@ export default class Blog extends Component{
             return;
         }
 
-        //Añadimos un condicional donde le decimos que la suma de esas dos propiedades cuando sea igual a la medida del total del documento que nos muestre más post.
+        //Añadimos un condicional donde le decimos que la suma de esas dos propiedades cuando sea igual a la medida del total del documento que nos llame a la funcion y nos muestre más post.
         if(window.innerHeight + Math.ceil(document.documentElement.scrollTop) === document.documentElement.offsetHeight){
             this.getBlogITems();
             //console.log("Muestra más post");
@@ -124,12 +124,14 @@ export default class Blog extends Component{
                 handleSuccessfulNewBlogSubmission= {this.handleSuccessfulNewBlogSubmission}
                 handleModalClose= {this.handleModalClose}
                 modalIsOpen={this.state.blogModalIsOpen}/>
-                {/*Creamos el link para abrir el react-modal */}
-                <div className="new-blog-link">
-                    <a onClick={this.handleNewBlogClick}>
+                {/*Creamos el link para abrir el react-modal, este enlace no aparecerá si no esta identificado */}
+                {this.props.loggedInStatus === "LOGGED_IN" ? 
+                    (<div className="new-blog-link">
+                        <a onClick={this.handleNewBlogClick}>
                         <FontAwesomeIcon icon="fa-solid fa-circle-plus" />
-                    </a>
-                </div>
+                        </a>
+                    </div>) : null
+                }
                 <div className="content-container">
                     {blogRecords}   
                 </div>
