@@ -1,5 +1,5 @@
 import React from "react";
-import aboutImage from "../../../static/assets/images/about/About.jpg"
+import aboutImage from "../../../static/assets/images/about/about.jpg"
 
 export default function(){
     return (
