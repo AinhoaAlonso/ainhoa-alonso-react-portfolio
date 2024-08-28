@@ -106,8 +106,6 @@ export default class PortfolioForm extends Component {
             });
         }
     }
-
-
     //Dropzone
 
     //Desarrollamos un método para manejar el proceso cuando se coloca una imagen en ese componente de zona de colocación, para la imagen en miniatura.
@@ -145,7 +143,7 @@ export default class PortfolioForm extends Component {
     // 2º método de configuracion
     djsConfig(){
         return{
-            //Que permite borrar links
+            //Que permite agregar/borrar links
             addRemoveLinks: true,
             maxFiles: 1 //Archivos máximo permitidos para subir
         };
@@ -310,8 +308,8 @@ export default class PortfolioForm extends Component {
                             </div>
                         </div>
                         : (<DropzoneComponent 
-                        //Agregamos nuestras referencias (refs) a JSX
-                        ref = {this.thumbRef}
+                            //Agregamos nuestras referencias (refs) a JSX para limpiar código del formulario
+                            ref = {this.thumbRef}
                             config={this.componentConfig()}
                             djsConfig={this.djsConfig()}
                             // Lo llamamos dentro del componente dropzone

@@ -21,13 +21,12 @@ import PortfolioManager from './pages/portfolio-manager';
 import PortfolioDetail from './portfolio/portfolio-detail';
 import Auth from './pages/auth';
 import NoMatch from './pages/no-match';
-import AddBlog from './pages/addblog';
 import Icons from '../helpers/icons';
 
 export default class App extends Component {
   constructor(props){
     super(props);
-
+    //Llamamos desde el constructor a la función donde tenemos todos los iconos de nuestra aplicacion
     Icons();
 
     this.state ={
@@ -148,8 +147,15 @@ export default class App extends Component {
                 )}
               />
               {/* Podemos personalizar la ruta */}
-              <Route path = "/b/:slug" component={BlogDetail} />
-
+              {/*Tenemos que pasarle la propiedad del loggedInStatus para que cuando pulsemos el detalle del blog no nos salga el modal de modificar aunque no funcione, le pasamos la propiedad render para pasar propiedades al componente */}
+              <Route path = "/b/:slug" 
+                render = {props => (
+                  <BlogDetail
+                    {...props}
+                    loggedInStatus = {this.state.loggedInStatus}
+                  />
+                )}
+              />
               {/* Para el enlace Portfolio Manager */}
               {/* Creamos un condicional con operador ternario donde si el status aparece como LOGGED_IN entonces que me llame a la función y muestre la ruta y el menu portfolio manager, sino que no puedas acceder. */}
               {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
@@ -162,7 +168,7 @@ export default class App extends Component {
                 path="/portfolio/:slug"
                 component={PortfolioDetail}
               />
-              <Route path = "/addblog" component={AddBlog} />
+              
 
                {/* Vamos a definir una ruta que en realidad no tiene un camino path, lo va a hacer es aprovechar la forma en que funciona switch, como si fuese un condicional.
                Es importante que esta ruta siempre esté al final porque es la que no va a coincidir, si se pone la primera siempre seria la que capturaría.*/}

@@ -33,16 +33,39 @@ export default class Blog extends Component{
         this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleSuccessfulNewBlogSubmission = this.handleSuccessfulNewBlogSubmission.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
-    //función para el blog, la idea es que cuando guardes un nuevo registro salga del modal y que ese nuevo registro lo actualice en nuestro listado de blogs de la página
+
+    //Funcion que me va a permitir borrar un blog cuando este iniciada la sesion los blogs. Le pasamos un argumento para saber que Blog quiere eliminar
+    handleDeleteClick(blog){
+        //console.log("Delete blog", blog);
+        //vamos a pasar a la API lo que queremos eliminar, lo hacemos con el id
+        axios.delete(`https://api.devcamp.space/portfolio/portfolio_blogs/${blog.id}`,
+            {withCredentials: true}
+        )
+        //Ahora como respuesta vamos a actualizar el state porque el elemento lo borra pero no lo hace en la pagina si no actualizas, para ello vamos a hacer un filter donde va a comprobar si el blog.id es diferente al blogItem en el que estamos, va a ir pasando por cada uno y los va a sacar en pantalla.
+        //Esto quiere decir que si damos click en delete, eliminamos el blog seleccionado y luego comprueba que no coincida con ninguno de los que quedan y los va monstrando en pantalla
+        .then(response => {
+            //console.log("Respuesta de eliminar el blog", response);
+            this.setState({
+                blogItems: this.state.blogItems.filter(blogItem => {
+                    return blog.id != blogItem.id;
+                })
+            });
+            return response.data;
+        })
+        .catch(error => {
+            console.log("Error al eliminar el blog", error);
+        }); 
+    }
+
+    //función para el blog, la idea es que cuando guardes un nuevo registro salga del modal, rompa el componente y tb sale del formulario y que ese nuevo registro lo actualice en nuestro listado de blogs de la página
     handleSuccessfulNewBlogSubmission(blog){
         this.setState({
             blogModalIsOpen:false,
             //Lo que hacemos que añadir el blog que le pasamos nuevo a los blogs que ya tenemos (concat)
             blogItems: [blog].concat(this.state.blogItems)
         })
-        
-
     }
 
     //Función que va a actualizar el state para cerrar el react-modal
@@ -113,9 +136,23 @@ export default class Blog extends Component{
 
     render(){
         //Creamos una variable que va a almacenar cada blog porque el vamos a iterar y va a devolver su titulo monstrado en pantalla
+        //Aquí dentro vamos a crear una condición para que cuando este loggeado me muestre tambien los blogs y tambien un icono de eliminar y si no lo está solo los blogs pero no me deje eliminar nada
         const blogRecords = this.state.blogItems.map(blogItem => {
-            return <BlogItem key = {blogItem.id} blogItem = {blogItem} />
-        })
+            if(this.props.loggedInStatus === "LOGGED_IN"){
+                return(
+                    <div key = {blogItem.id} className="admin-blog-wrapper">
+                        <BlogItem blogItem = {blogItem} />
+                        {/*Aqui tenemos que crear una funcion anonima que llame a la funcion con un argumento de blogItem porque es el elemento que se le va a pasar para que sepa que blog borrar.
+                        Cuidado porque si hacemos solo this.handleDeleteClick(blogItem), JS da por echo que lo quiere ejecutar de la misma y no va a esperar al click, por eso creamos la función anónima */}
+                        <a onClick={() => this.handleDeleteClick(blogItem)}>
+                            <FontAwesomeIcon icon = "trash" />
+                        </a>
+                    </div>
+                );
+            } else {
+                return <BlogItem key = {blogItem.id} blogItem = {blogItem} />
+            }
+        });
         return (
             <div className="blog-container">
                 {/*Le pasamos la funcion para que actualice el state cuando pulsamos para crear un nuevo blog, por defecto es false.

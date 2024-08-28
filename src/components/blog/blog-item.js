@@ -3,6 +3,7 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
+
 const BlogItem = props =>{
     //Hacemos una deconstruccion y asignamos variables a cada elemento de la extracción
     const {

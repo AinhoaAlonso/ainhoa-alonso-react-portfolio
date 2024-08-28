@@ -43,29 +43,39 @@ export default class PortfolioContainer extends Component {
     }
 
     // Función para crear un filtro de datos y le vamos a pasar un argumento
+    //Le pasamos una condición que si el filter es igual que el CLEAR_FILTERS (boton ALL), que me devuelva todos los portfolios y sino lo es que me traiga los portfolio con el argumento, que por defecto es null
     handleFilter(filter){
-        this.setState({
-
-            // Aquí estamos actualizando los datos diciendole que me haga un filter (es parecido a un bucle) y que cuando la category del elemento sea igual a ese filter me aparezcan solo esos datos.
-            // Esto lo vamos a lanzar desde unos botones donde tendremos que especificar el argumento filter.
-            data: this.state.data.filter(item => {
-                return item.category === filter;
-            })
-        });
+        if(filter === "CLEAR_FILTERS"){
+            this.getPortfolioItems();
+        } else{
+            this.getPortfolioItems(filter); 
+        }
     }
 
     // Nueva función para comunicarnos con una API con axios y dentro pego lo que necesito de Get desde la documentación de axios.
-    getPortfolioItems (){
+    //Al poner el argumento de filter, me permite tener un contenido más dinámico de si hay un filter o no lo hay
+    getPortfolioItems (filter = null){
         // Ponemos la URL get de nuestra API
         axios.get('https://ainhoaalonso.devcamp.space/portfolio/portfolio_items')
         .then(response => {
             // handle success
-            console.log("Datos de respuesta", response);
+            //console.log("Datos de respuesta", response);
 
-            // Va a cambiar el estado de la data y a traer los datos de nuestra API
-            this.setState({
-                data: response.data.portfolio_items
-            });
+            //Si hay un filter quiero que me hagas el proceso de filtrado, lo quito de handleFilter
+            //// Aquí estamos actualizando los datos diciendole que me haga un filter (es parecido a un bucle) y que cuando la category del elemento sea igual a ese filter me aparezcan solo esos datos.
+            // Esto lo vamos a lanzar desde unos botones donde tendremos que especificar el argumento filter.
+            if(filter){
+                this.setState({
+                    data: response.data.portfolio_items.filter(item => {
+                        return item.category === filter;
+                    })
+                });
+            } else {
+                // Va a cambiar el estado de la data y a traer los datos de nuestra API
+                this.setState({
+                    data: response.data.portfolio_items
+                });
+            }
         })
         .catch(error => {
             // handle error
@@ -117,23 +127,24 @@ export default class PortfolioContainer extends Component {
         this.getPortfolioItems();*/
 
         return (
-            <div className='portfolio-items-wrapper'>
-                {/* Para que funcione el evento con argumentos hay que llamarlos creando una función anónima (un función flecha) y lo que va a hacer es que no se va a ejecutar automáticamente. Se van a cargar las funciones pero no se van a llamar*/}
-                {/*<button className="btn" onClick={() => this.handleFilter("Technology")}>Technology</button>*/}
-                <button className="btn" onClick={() => this.handleFilter("eCommerce")}>eCommerce</button>
-                <button className="btn" onClick={() => this.handleFilter("Scheduling")}>Scheduling</button>
-                <button className="btn" onClick={() => this.handleFilter("Enterprise")}>Enterprise</button>
-                {/*<button className="btn" onClick={() => this.handleFilter("Social Media")}>Social Media</button>*/}
-                {/*<button className="btn" onClick={() => this.handleFilter("Education")}>Education</button>*/}
-                
-                {this.portfolioItems()}
+            <div className='homepage-wrapper'>
+                <div className='filter-links'>
+                    {/*Para que funcione el evento con argumentos hay que llamarlos creando una función anónima (un función flecha) y lo que va a hacer es que no se va a ejecutar automáticamente. Se van a cargar las funciones pero no se van a llamar*/}
+                    {/*<button className="btn" onClick={() => this.handleFilter("Technology")}>Technology</button>*/}
+                    <button className="btn" onClick={() => this.handleFilter("eCommerce")}>eCommerce</button>
+                    <button className="btn" onClick={() => this.handleFilter("Scheduling")}>Scheduling</button>
+                    <button className="btn" onClick={() => this.handleFilter("Enterprise")}>Enterprise</button>
+                    <button className="btn" onClick={() => this.handleFilter("CLEAR_FILTERS")}>All</button>
+                    {/*<button className="btn" onClick={() => this.handleFilter("Social Media")}>Social Media</button>*/}
+                    {/*<button className="btn" onClick={() => this.handleFilter("Education")}>Education</button>*/}
+                </div>
+                <div className='portfolio-items-wrapper'>{this.portfolioItems()}</div>
             </div>
-                
                 /*Aquí vamos a crear un generador de eventos onClick para llamar a la función que hemos creado para actualizara nuestro título.
                 En principio parece que debería funcionar pero si hacemos click nos da un error.
                 Este error ocurre porque aunque estamos definiendo correctamente la función tenemos que avisar al componente que debe tener acceso a la palabra clave this, necesita saber que puede tener acceso a todos los datos del componente. Esto lo vamos a hacer en el CONSTRUCTOR
-                <button onClick={this.handlePageTitleUpdate}>Cambiar Título</button>*/     
-        )
+                <button onClick={this.handlePageTitleUpdate}>Cambiar Título</button>*/
+        );
     }
 
 }

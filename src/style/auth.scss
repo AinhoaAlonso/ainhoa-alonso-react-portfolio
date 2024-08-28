@@ -18,5 +18,24 @@
         justify-content: center;
         align-items: center;
         background-color:$offwhite;
+
+        //Estas clases vienen de login.js que el componente está dentro de auth.js 
+        .auth-form-wrapper{
+            @include input-element();
+            @include base-grid();
+            grid-gap:21px;
+            padding: 42px;
+
+            .form-group {
+                display: flex;
+
+                //Vamos a dar estilo a los iconos que son SVG, es otra forma de hacerlo sin tratarlos como texto
+                svg {
+                    font-size: 2em;
+                    color: $teal;
+                    margin-right: 15px;
+                }
+            }
+        }
     }
 }
